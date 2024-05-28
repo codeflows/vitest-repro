@@ -2,18 +2,12 @@ import { describe, expect, it } from "vitest";
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const fail = () => {
-  throw new Error("fail");
-};
-
 describe.concurrent("Concurrency test", () => {
   it("first", async () => {
-    await expect(delay(1000).then(fail)).rejects.toThrowError(
-      "UNEXPECTED VALUE"
-    );
+    await expect(delay(100).then(() => "ok")).resolves.toEqual("not ok!");
   });
 
   it("second", async () => {
-    await expect(delay(0).then(fail)).rejects.toThrowError("fail");
+    expect("ok").toEqual("ok");
   });
 });
